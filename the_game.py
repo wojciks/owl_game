@@ -101,9 +101,10 @@ while run:
         logo = pygame.image.load(os.path.join('owl.gif'))
         screen.blit(logo, (325, 150))
         on_screen_sign("Hit space to start", 40)
+        speed = 0.5
     elif what_shows == 'in_game':
         for p in obstacles:
-            p.movement(0.5)
+            p.movement(speed)
             p.draw()
             if p.collision(player.shape):
                 what_shows = 'loose_screen'
@@ -116,6 +117,7 @@ while run:
         player.draw()
         player.movement(dy)
         on_screen_sign(f"Score: {points:.1f}", 30, 600, white)
+        speed += 0.00001
     elif what_shows == 'loose_screen':
         logo = pygame.image.load(os.path.join('owl.gif'))
         screen.blit(logo, (325, 150))
@@ -123,6 +125,7 @@ while run:
         on_screen_sign("but before it met its gruesome death, it managed to get:", 30, 450)
         on_screen_sign(f"{points:.1f} points.", 30, 500)
         on_screen_sign("Hit space to play again!", 40, 550)
+        speed = 0.5
 
     pygame.display.update()
 
