@@ -117,7 +117,7 @@ while run:
         player.draw()
         player.movement(dy)
         on_screen_sign(f"Score: {points:.1f}", 30, 600, white)
-        speed += 0.00001
+        speed += 0.0001
     elif what_shows == 'loose_screen':
         logo = pygame.image.load(os.path.join('owl.gif'))
         screen.blit(logo, (325, 150))
