@@ -51,9 +51,9 @@ class FlyingObject():
         self.shape = pygame.Rect(self.x, self.y, self.width, self.height)
 
 
-def on_screen_sign(text, size, y=400):
+def on_screen_sign(text, size, y=400, rgb=(255, 100, 100)):
     my_font = pygame.font.SysFont("Arial", size)
-    go_render = my_font.render(text, 1, (255, 100, 100))
+    go_render = my_font.render(text, 1, rgb)
     x = (width - go_render.get_rect().width) / 2
     screen.blit(go_render, (x, y))
 
@@ -61,6 +61,9 @@ def on_screen_sign(text, size, y=400):
 pygame.init()
 width = 800
 height = 700
+white = (255, 255, 255)
+black = (0, 0, 0)
+
 screen = pygame.display.set_mode((width, height))
 
 what_shows = 'menu'
@@ -109,8 +112,10 @@ while run:
                 obstacles.remove(p)
                 obstacles.append(Obstacle(width, width / 20))
                 points += math.fabs(dy)
+
         player.draw()
         player.movement(dy)
+        on_screen_sign(f"Score: {points:.1f}", 30, 600, white)
     elif what_shows == 'loose_screen':
         logo = pygame.image.load(os.path.join('owl.gif'))
         screen.blit(logo, (325, 150))
