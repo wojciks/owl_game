@@ -51,9 +51,9 @@ class FlyingObject():
         self.shape = pygame.Rect(self.x, self.y, self.width, self.height)
 
 
-def on_screen_sign(text, size, y=400):
+def on_screen_sign(text, size, y=400, rgb=(255, 100, 100)):
     my_font = pygame.font.SysFont("Arial", size)
-    go_render = my_font.render(text, 1, (255, 100, 100))
+    go_render = my_font.render(text, 1, rgb)
     x = (width - go_render.get_rect().width) / 2
     screen.blit(go_render, (x, y))
 
@@ -61,6 +61,10 @@ def on_screen_sign(text, size, y=400):
 pygame.init()
 width = 800
 height = 700
+white = (255, 255, 255)
+black = (0, 0, 0)
+speed = 0.5
+
 screen = pygame.display.set_mode((width, height))
 
 what_shows = 'menu'
@@ -91,6 +95,13 @@ while run:
             points = 0
             dy = 0
             what_shows = 'in_game'
+    if keys[pygame.K_RIGHT]:
+        speed += 0.003
+    if keys[pygame.K_LEFT]:
+        if speed > 0.5:
+            speed -= 0.01
+            if points >= 0.1:
+                points -= 0.02
 
     screen.fill((0, 0, 0))
 
@@ -98,9 +109,10 @@ while run:
         logo = pygame.image.load(os.path.join('owl.gif'))
         screen.blit(logo, (325, 150))
         on_screen_sign("Hit space to start", 40)
+        speed = 0.5
     elif what_shows == 'in_game':
         for p in obstacles:
-            p.movement(0.5)
+            p.movement(speed)
             p.draw()
             if p.collision(player.shape):
                 what_shows = 'loose_screen'
@@ -109,8 +121,11 @@ while run:
                 obstacles.remove(p)
                 obstacles.append(Obstacle(width, width / 20))
                 points += math.fabs(dy)
+
         player.draw()
         player.movement(dy)
+        on_screen_sign(f"Score: {points:.1f}", 30, 600, white)
+        speed += 0.0001
     elif what_shows == 'loose_screen':
         logo = pygame.image.load(os.path.join('owl.gif'))
         screen.blit(logo, (325, 150))
@@ -118,6 +133,7 @@ while run:
         on_screen_sign("but before it met its gruesome death, it managed to get:", 30, 450)
         on_screen_sign(f"{points:.1f} points.", 30, 500)
         on_screen_sign("Hit space to play again!", 40, 550)
+        speed = 0.5
 
     pygame.display.update()
 
