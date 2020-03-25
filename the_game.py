@@ -63,6 +63,7 @@ width = 800
 height = 700
 white = (255, 255, 255)
 black = (0, 0, 0)
+speed = 0.5
 
 screen = pygame.display.set_mode((width, height))
 
@@ -94,6 +95,13 @@ while run:
             points = 0
             dy = 0
             what_shows = 'in_game'
+    if keys[pygame.K_RIGHT]:
+        speed += 0.003
+    if keys[pygame.K_LEFT]:
+        if speed > 0.5:
+            speed -= 0.01
+            if points >= 0.1:
+                points -= 0.02
 
     screen.fill((0, 0, 0))
 
